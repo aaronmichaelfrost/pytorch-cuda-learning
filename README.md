@@ -22,7 +22,7 @@ The dataset: https://archive.ics.uci.edu/dataset/53/iris
  Some breakdown of the fundamentals
 
 
-# The Network - - - - - - - - -
+# The Network
  First, let's look at a multilayer perceptron - some old tech.
    Neuron - container of a number called an "activation" 
      - The first layer of a network should contain all the input features.
