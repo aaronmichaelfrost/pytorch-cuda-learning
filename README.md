@@ -2,7 +2,7 @@
 To learn about deep learning / neural networks, I'm creating a neural network that classifies a flower given its instance properties/features.
 It is fully-connected feed forward, so all neurons in each layer influence all neurons in adjacent layers.
 
-The first notebook is flower_classifier.py, but in the next I'll use NVIDIA transformer engine, with PyTorch, casting activations to FP16 for increased performance.
+The first notebook is flower_classifier.ipynb, but in the next I'll use NVIDIA transformer engine, with PyTorch, casting activations to FP16 for increased performance.
 https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/index.html
 
 The dataset: https://archive.ics.uci.edu/dataset/53/iris
