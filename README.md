@@ -49,13 +49,13 @@ The dataset: https://archive.ics.uci.edu/dataset/53/iris
          Pizza-love: 3
          Burrito-love: 4
 
-      Hidden layer 1 neuron:
-         - maybe this neuron should fire if we like burritos more than pizza (arbitrary quality)
-               neuron-activation = Hunger(1)*(weight: 0) + Pizza-love(weight:-1) + Burrito-love(weight: 1)
-                 = 0 + -3 + 4
-                 = 1 (it's positive so the neuron activated!)
-             (notice I made the weight of pizza love -1, and burrito-love 1, this is so the neuron would fire if we like burritos more).
-             These weights made this neuron fire (I guess we can call it the "burrito is better than pizza" neuron). This neuron firing should, ideally, feeding it forward, lead to activation of the output neuron that classifies the answer as no, let's get a burrito instead!
+Hidden layer 1 neuron:
+  - maybe this neuron should fire if we like burritos more than pizza (arbitrary quality)
+        neuron-activation = Hunger(1)*(weight: 0) + Pizza-love(weight:-1) + Burrito-love(weight: 1)
+          = 0 + -3 + 4
+          = 1 (it's positive so the neuron activated!)
+      (notice I made the weight of pizza love -1, and burrito-love 1, this is so the neuron would fire if we like burritos more).
+      These weights made this neuron fire (I guess we can call it the "burrito is better than pizza" neuron). This neuron firing should, ideally, feeding it forward, lead to activation of the output neuron that classifies the answer as no, let's get a burrito instead!
 
   This 3B1B video does a good job showing how weights are like a mask that determines presence of a feature: https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&index=1&ab_channel=3Blue1Brown
 
@@ -69,8 +69,8 @@ The dataset: https://archive.ics.uci.edu/dataset/53/iris
      ex. activation = sigmoid(weighted_sum(prev_layer) + bias)
        By convention, every neuron has this bias value, added to the sum before squishing with the sigmoid.
 
-     Weights and biases combined are called "parameters".
-     "Learning" is finding the valid setting for all these parameters, to solve the problem at hand (have the correct output neurons fire for a given input neuron set)
+Weights and biases combined are called "parameters".
+"Learning" is finding the valid setting for all these parameters, to solve the problem at hand (have the correct output neurons fire for a given input neuron set)
 
 
    Okay, with all that out of the way, let's go over how we're going to translate this to vectors we can work with in Python.
@@ -79,15 +79,15 @@ The dataset: https://archive.ics.uci.edu/dataset/53/iris
      2. The weight values for all connections to the next layer are a 2D array
          - each row represents the weights to a neuron in the next layer
 
-     This means if you multiply a row from this 2d array of weights against the column vector (the entire left-layer activations), the number you recieve represents the weighted sum for the right-layer neuron associated with that row.
-     Matrix multiplication requires multiplying matching members and summing them together. If we multiply the weights 2D matrix against the column vector, we actually get the activations for the next row.
-       -->  since the height of the column vector is equal to the width of the matrix, you can multiply the 2d-Array by the column vector. To multiply two vectors component by component, and sum them all, you are computing the "dot product", is what this is called.
-         The dot product is expressed this way algebraically.
-     The biases is just another column vector that gets added to the previous matrix-vector product.
-       Finally, apply the sigmoid to each compoent of the resulting column vector.
-         OR you can apply a reLU  instead of sigmoid, which returns y=x when input is positive, and y=0 when input is negative.
-           - reLU -> preferred for hidden layers
-           - sigmoid -> preferred for output layers in binary classification
+This means if you multiply a row from this 2d array of weights against the column vector (the entire left-layer activations), the number you recieve represents the weighted sum for the right-layer neuron associated with that row.
+Matrix multiplication requires multiplying matching members and summing them together. If we multiply the weights 2D matrix against the column vector, we actually get the activations for the next row.
+-->  since the height of the column vector is equal to the width of the matrix, you can multiply the 2d-Array by the column vector. To multiply two vectors component by component, and sum them all, you are computing the "dot product", is what this is called.
+  The dot product is expressed this way algebraically.
+The biases is just another column vector that gets added to the previous matrix-vector product.
+Finally, apply the sigmoid to each compoent of the resulting column vector.
+  OR you can apply a reLU  instead of sigmoid, which returns y=x when input is positive, and y=0 when input is negative.
+    - reLU -> preferred for hidden layers
+    - sigmoid -> preferred for output layers in binary classification
     
  # How the Network Learns 
  
@@ -156,33 +156,33 @@ The dataset: https://archive.ics.uci.edu/dataset/53/iris
    Calculates vector to add to the generic token embedding to get the meaning in context of the rest of the passage.
      The generic token embedding doesn't really encode any meaning, just the word with NO context.
 
-     A "head" of attention:
-       This is a pattern that represents the "updates needed" for a single transformation (ex. have adjectives adjust meaning of corresponding nouns --> the noun vectors should be updated to "soak in" the adjectives).
+A "head" of attention:
+This is a pattern that represents the "updates needed" for a single transformation (ex. have adjectives adjust meaning of corresponding nouns --> the noun vectors should be updated to "soak in" the adjectives).
+
+A "query" for a given token, in this example, would represent the question: "are there any surrounding adjectives?" --> query vector. Computing the query vector is a means of multiplying the embedding against a set of weights (the weights, when trained, will create this hypothetical question when multiplied against the input)
+--> the true behavior of a query vector (what hypothetical "question" it asks about the token), is learned from data, as the query vector = input vector * weights vector
+
+The "key matrix" is a second sequence of vector weights, called the keys, which you can imagine representing the answers to those questions, for each token.
+
+If there is close alignment between a key and a query (using dot product), then the key answers the query. The embeddings of the key are then said to "attend to" the embedding of the query, where the dot product is high (similar)
+Now, given the dot products (similarity scores), you can softmax each column of the attention head (imagine this being a matrix with query vectors for cols, key vectors for rows), with the row*col "dots" in each cell.
+  The softmax of a given column represents the normalized distribution, representing which embedding tokens are most likely to affect other tokens, in terms of the query.
+
+  With the key tokens determined, a third weight matrix is introduced for training (Value Matrix)
+  The goal of the Value matrix is to determine the vector that needs to be added to the query token.
+  You can imagine it moving the query token to encode the meaning (ex. attaining an ajectives quality in vector space, given the answer to the query)
+  --> "If token X is relevant to adjusting the embedding of token Y, the value matrix weights are trained to apply a transformation to the X token, producing a value vector, that represents the quality that can be applied to token Y, when added to token Y's embedding"
+      You add the corresponding value vectors to the query embedding, multiplied by the weights in each cell, computed in the attention head. The sum of the column after the value vector is applied represents the tokens being transformed by the full context, basically "soaking in" what should be paid attention to, and how (and how much) each term should affect each other term.
+
+The result is a more refined, contextually rich embedding for each token.
+
+In short:
+  Query - weights trained to ask a question
+  Key   - weights trained to answer that question
+      Query * Key = positive if key answers query / the amount of relevance of the key to the query
+  Value - "if key answers query, weights trained to apply key token's transformation to the "source".
   
-     A "query" for a given token, in this example, would represent the question: "are there any surrounding adjectives?" --> query vector. Computing the query vector is a means of multiplying the embedding against a set of weights (the weights, when trained, will create this hypothetical question when multiplied against the input)
-       --> the true behavior of a query vector (what hypothetical "question" it asks about the token), is learned from data, as the query vector = input vector * weights vector
-  
-     The "key matrix" is a second sequence of vector weights, called the keys, which you can imagine representing the answers to those questions, for each token.
-
-     If there is close alignment between a key and a query (using dot product), then the key answers the query. The embeddings of the key are then said to "attend to" the embedding of the query, where the dot product is high (similar)
-     Now, given the dot products (similarity scores), you can softmax each column of the attention head (imagine this being a matrix with query vectors for cols, key vectors for rows), with the row*col "dots" in each cell.
-         The softmax of a given column represents the normalized distribution, representing which embedding tokens are most likely to affect other tokens, in terms of the query.
-
-         With the key tokens determined, a third weight matrix is introduced for training (Value Matrix)
-         The goal of the Value matrix is to determine the vector that needs to be added to the query token.
-         You can imagine it moving the query token to encode the meaning (ex. attaining an ajectives quality in vector space, given the answer to the query)
-         --> "If token X is relevant to adjusting the embedding of token Y, the value matrix weights are trained to apply a transformation to the X token, producing a value vector, that represents the quality that can be applied to token Y, when added to token Y's embedding"
-             You add the corresponding value vectors to the query embedding, multiplied by the weights in each cell, computed in the attention head. The sum of the column after the value vector is applied represents the tokens being transformed by the full context, basically "soaking in" what should be paid attention to, and how (and how much) each term should affect each other term.
-
-       The result is a more refined, contextually rich embedding for each token.
-
-     In short:
-         Query - weights trained to ask a question
-         Key   - weights trained to answer that question
-             Query * Key = positive if key answers query / the amount of relevance of the key to the query
-         Value - "if key answers query, weights trained to apply key token's transformation to the "source".
-         
-           --> this will refine teh input vector when the weighted value vectors are applied.
+--> this will refine teh input vector when the weighted value vectors are applied.
 
 
    GPT uses multiple attention heads in parallel before actually modifying the embeddign vector, so that an emebedding can be more richly contextualized, however the model decides to configure the weights. --> remember there are layers, so a richer layer is better than a layer that only encodes one query.
