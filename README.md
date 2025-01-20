@@ -18,7 +18,9 @@ The dataset: https://archive.ics.uci.edu/dataset/53/iris
 
    Multi-layer perceptrons (MLP) can classify data that is not linearly seperable, and take a flattened vector as input.
    Think of an MLP classifier not as splitting space into 3 groups based on geometric distances, but as sculpting a highly intricate decision landscape. If you're interested in computing distances to fixed centers, you'd want a centroid-based method like kNN.
-   Important to note, however, that convolutional neural networks (CNN) outperform MLP and are industry standard for classification problems. However, for this example, since MLP is used in transformers (underlying GPT), we'll stick with MLP.
+
+   
+   Important to note that convolutional neural networks (CNN) outperform MLP and are industry standard for classification problems. However, for this example, since MLP is used in transformers (underlying GPT), we'll stick with MLP.
 
  Some breakdown of the fundamentals
 
