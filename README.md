@@ -2,7 +2,7 @@
 To learn about deep learning / neural networks, I'm creating a neural network that classifies a flower given its instance properties/features.
 It is fully-connected feed forward, so all neurons in each layer influence all neurons in adjacent layers.
 
-In the next notebook we'll use NVIDIA transformer engine, with PyTorch, casting activations to FP16 for increased performance.
+The first notebook is flower_classifier.py, but in the next I'll use NVIDIA transformer engine, with PyTorch, casting activations to FP16 for increased performance.
 https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/index.html
 
 The dataset: https://archive.ics.uci.edu/dataset/53/iris
@@ -17,6 +17,7 @@ The dataset: https://archive.ics.uci.edu/dataset/53/iris
          and the other two class instances are all on the other side of that line.
 
    Multi-layer perceptrons (MLP) can classify data that is not linearly seperable, and take a flattened vector as input.
+   Think of an MLP classifier not as splitting space into 3 groups based on geometric distances, but as sculpting a highly intricate decision landscape. If you're interested in computing distances to fixed centers, you'd want a centroid-based method like kNN.
    Important to note, however, that convolutional neural networks (CNN) outperform MLP and are industry standard for classification problems. However, for this example, since MLP is used in transformers (underlying GPT), we'll stick with MLP.
 
  Some breakdown of the fundamentals
