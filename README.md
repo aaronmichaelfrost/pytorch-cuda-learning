@@ -34,7 +34,8 @@ The dataset: https://archive.ics.uci.edu/dataset/53/iris
  Multiplying a vector against that matrix (set of basis vector columns), computationally, is what it means to apply that transformation to that vector.
  
 # Matrix multiplication
-Applying multiplie linear transformations to the baiss, in an order (right column to left) (the right hand is the transformation applied first), to form a composition.
+Different from dot product, which is a scalar. 
+Matrix multiplication is simply applying multiple linear transformations to the basis, in an order (right column to left) (the right hand is the transformation applied first), to form a composition.
 It reads -right to left-, stemming from function notation, ex. f(g(x))
 To compute it, you split the right matrix into basis vector columns, and apply the dot product against the left matrix.
 
