@@ -25,6 +25,19 @@ The dataset: https://archive.ics.uci.edu/dataset/53/iris
  Some breakdown of the fundamentals
 
 
+
+ # Linear transformations:
+ Moving space so gridlines are parallel and evenly space. Fixed origin.
+ The transformation is defined by where it takes the basis vectors ex. (1,1) of a space.
+ By convention, the basis vectors are recorded as columns of a matrix:
+ Each column represents the transformed basis vector.
+ Multiplying a vector against that matrix (set of basis vector columns), computationally, is what it means to apply that transformation to that vector.
+ 
+# Matrix multiplication
+Applying multiplie linear transformations to the baiss, in an order (right column to left) (the right hand is the transformation applied first), to form a composition.
+It reads -right to left-, stemming from function notation, ex. f(g(x))
+To compute it, you split the right matrix into basis vector columns, and apply the dot product against the left matrix.
+
 # The Network
  First, let's look at a multilayer perceptron - some old tech.
    Neuron - container of a number called an "activation" 
