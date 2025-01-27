@@ -1,5 +1,7 @@
 # Aaron Frost - Jan 2025
 To learn about deep learning / neural networks, I'm creating a neural network that classifies a flower given its instance properties/features.
+Also see my notes from Oregon State Computer Science Machine Learning: https://docs.google.com/document/d/1PEdAn0PCYlt2jSLAVoLOK3IOOeIYsKEronxPU0F06AA/edit?usp=sharing 
+
 It is fully-connected feed forward, so all neurons in each layer influence all neurons in adjacent layers.
 
 The first notebook is flower_classifier.ipynb, but in the next I'll use NVIDIA transformer engine, with PyTorch, casting activations to FP16 for increased performance.
